@@ -18,6 +18,13 @@
         <a class='mx-3' href="logout.php">登出</a>
     </div>
   </header>
+  <nav class='p-2'>
+    <span class="m-btn btn btn-light" data-btn="routes" onclick="loadpage(this)">路線管理</span>
+    <span class="m-btn btn btn-light" data-btn="buses" onclick="loadpage(this)">車輛管理</span>
+    <span class="m-btn btn btn-light" data-btn="stations" onclick="loadpage(this)">站點管理</span>
+    <span class="m-btn btn btn-light" data-btn="forms" onclick="loadpage(this)">表單管理</span>
+  </nav>
+
   <main>
 
   </main>
@@ -31,7 +38,19 @@
 </body>
 </html>
 <script>
+loadpage($("span[data-btn='routes']"))
+function loadpage(dom){
+    let btn=$(dom).data('btn')
+    let page="back/"+ btn + "_manage.php";
+    $.get(page,function(r){
+        $("main").html(r)
 
+        $(".m-btn").removeClass("active")
+        $(dom).addClass('active')
+
+    })
+
+}
 
 
 </script>
