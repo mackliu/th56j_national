@@ -19,7 +19,7 @@
         </div>
     </div>
     <div class="form-group">
-        <input type="button" value="登入" onclick="getForm()">
+        <input type="button" value="登入" onclick="getForm()" class='btn btn-success w-100'>
     </div>
 
 </form>
