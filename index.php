@@ -14,21 +14,11 @@
         <a href="index.php">大眾運輸查詢系統</a>
     </div>
     <div>
-        <a href="admin.php">系統管理</a>
+        <a href="#" onclick="login()">系統管理</a>
     </div>
   </header>
   <main class='p-3'>
-    <div class="form-group">
-        <select name="route" id="" class="d-block m-auto col-6 form-control">
-            <option value="1">路線1</option>
-            <option value="2">路線2</option>
-            <option value="3">路線3</option>
-            <option value="4">路線4</option>
-            <option value="5">路線5</option>
-        </select>
-        
-    </div>
-    <div class="w-full" id="RouteMap">路網圖</div>
+    
 
   </main>
   <footer></footer>
@@ -39,7 +29,43 @@
 </body>
 </html>
 <script>
+loadpage('./front/route_maps.php')
+function loadpage(page){
+     $.get(page,function(r){
+        $("main").html(r)
+
+    })
+}
+
+function login(){
+    //1. 檢查是否已登入
+    $.get("./api/check_login.php",(r)=>{
+        if(parseInt(r)){
+            location.href='admin.php';
+        }
+    })
+
+    //2. 載入登入表單
+    $.get("./front/login.php",(r)=>{
+        $("main").html(r)
+    })
 
 
+}
+
+function getForm(){
+    let acc=$("#LoginForm input[name='acc']").val()
+    let pw=$("#LoginForm input[name='pw']").val()
+    //3. 送出表單登入
+    $.post("./api/login.php",{acc,pw},(r)=>{
+        console.log(acc,pw,r)
+        if(parseInt(r)==1){
+            location.href='admin.php';
+        }else{
+            alert("帳號或密碼錯誤,請重新登入")
+            login();
+        }
+    })
+}
 
 </script>

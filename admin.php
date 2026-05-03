@@ -15,7 +15,7 @@
     </div>
     <div>
         <a class='mx-3' href="admin.php">系統管理</a>
-        <a class='mx-3' href="logout.php">登出</a>
+        <a class='mx-3' href="./api/logout.php">登出</a>
     </div>
   </header>
   <nav class='p-2'>
@@ -44,13 +44,8 @@ function loadpage(dom){
     let page="back/"+ btn + "_manage.php";
     $.get(page,function(r){
         $("main").html(r)
-
         $(".m-btn").removeClass("active")
         $(dom).addClass('active')
-
     })
-
 }
-
-
 </script>
