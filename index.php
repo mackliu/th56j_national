@@ -13,38 +13,47 @@
 </head>
 
 <body>
-    <div id="home">
-        <header class="site-header">
-            <div class="brand">
+    <div id="home" class='container'>
+        <header class="site-header d-flex p-3 justify-content-between border-bottom">
+            <div class="brand" style='border:1px solid #ccc;width:30px;height:30px;background:green'>
                 <a href="" class="brand-link"></a>
             </div>
             <nav class="main-nav">
-                <a href="" class="home-link">首頁</a>
-                <a href="" class="games-link">遊戲</a>
-                <a href="" class="friends-link">好友</a>
+                <a href="" class="btn btn-info mx-2 home-link">首頁</a>
+                <a href="" class="btn btn-info mx-2 games-link">遊戲</a>
+                <a href="" class="btn btn-info mx-2 friends-link">好友</a>
             </nav>
             <div class="user-area">
-                <a href="" class="login-link">登入</a>
-                <a href="" class="register-link">註冊</a>
+                <a href="" class="btn btn-primary mx-2 login-link">登入</a>
+                <a href="" class="btn btn-success mx-2 register-link">註冊</a>
                 <div class="user-badge">
-                    <a href="" class="profile-link">個人頁面入口</a>
-                    <a href="" class="logout-link">登出</a>
+                    <a href="" class="btn btn-success mx-2 profile-link">個人頁面入口</a>
+                    <a href="" class="btn btn-success mx-2 logout-link">登出</a>
                 </div>
             </div>
         </header>
-        <section class="articles">
-            <article class="article-item">
-                <div class="article-title"></div>
-                <time datetime="" class="article-date"></time>
-                <div class="article-excerpt"></div>
-                <a href="" class="article-readmore"></a>
+        <section class="articles p-3">
+            <?php for($i=0; $i<5;$i++):;?>
+            <article class="article-item w-100 border rounded p-3 my-2">
+                <div class='d-flex justify-content-between'>
+                    <div class="article-title text-md bolder"><?=$i;?>. 很好玩</div>
+                    <time datetime="" class="article-date text-sm"><?=date("Y-m-d H:i:s");?></time>
+                </div>
+                <div class="article-excerpt">有好好的遊戲......</div>
+                <div class='text-right'>
+                    <a href="" class="article-readmore">More</a>
+                </div>
             </article>
+            <?php endfor;?>
+
         </section>
         <aside class="notifications">
-            <div class="notification-item">
-                <div class="notification-title"></div>
-                <time datetime="" class="notification-date"></time>
+            <?php for($i=0; $i<5;$i++):;?>
+            <div class="notification-item border-bottom my-1">
+                <div class="notification-title text-lg">公告事項:<?=$i;?></div>
+                <time datetime="" class="notification-date"><?=date("Y-m-d H:i:s");?></time>
             </div>
+            <?php endfor;?>
         </aside>
         
     </div>
