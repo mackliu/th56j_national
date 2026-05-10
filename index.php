@@ -19,42 +19,24 @@
                 <a href="" class="brand-link"></a>
             </div>
             <nav class="main-nav">
-                <a href="" class="btn btn-info mx-2 home-link">首頁</a>
-                <a href="" class="btn btn-info mx-2 games-link">遊戲</a>
-                <a href="" class="btn btn-info mx-2 friends-link">好友</a>
+                <a href="javascript:loadpage('./front/main.php')" class="btn btn-info mx-2 home-link">首頁</a>
+                <a href="javascript:loadpage('./front/games.php')" class="btn btn-info mx-2 games-link">遊戲</a>
+                <a href="javascript:loadpage('./front/friends-page.php')" class="btn btn-info mx-2 friends-link">好友</a>
             </nav>
             <div class="user-area">
-                <a href="" class="btn btn-primary mx-2 login-link">登入</a>
-                <a href="" class="btn btn-success mx-2 register-link">註冊</a>
+                <a href="javascript:loadpage('./front/login.php')" class="btn btn-primary mx-2 login-link">登入</a>
+                <a href="javascript:loadpage('./front/register.php')" class="btn btn-success mx-2 register-link">註冊</a>
                 <div class="user-badge">
-                    <a href="" class="btn btn-success mx-2 profile-link">個人頁面入口</a>
+                    <a href="javascript:loadpage('./front/profile-page.php')" class="btn btn-success mx-2 profile-link">個人頁面入口</a>
                     <a href="" class="btn btn-success mx-2 logout-link">登出</a>
                 </div>
             </div>
         </header>
-        <section class="articles p-3">
-            <?php for($i=0; $i<5;$i++):;?>
-            <article class="article-item w-100 border rounded p-3 my-2">
-                <div class='d-flex justify-content-between'>
-                    <div class="article-title text-md bolder"><?=$i;?>. 很好玩</div>
-                    <time datetime="" class="article-date text-sm"><?=date("Y-m-d H:i:s");?></time>
-                </div>
-                <div class="article-excerpt">有好好的遊戲......</div>
-                <div class='text-right'>
-                    <a href="" class="article-readmore">More</a>
-                </div>
-            </article>
-            <?php endfor;?>
+        <main class="p-3" id="content">
 
-        </section>
-        <aside class="notifications">
-            <?php for($i=0; $i<5;$i++):;?>
-            <div class="notification-item border-bottom my-1">
-                <div class="notification-title text-lg">公告事項:<?=$i;?></div>
-                <time datetime="" class="notification-date"><?=date("Y-m-d H:i:s");?></time>
-            </div>
-            <?php endfor;?>
-        </aside>
+        </main>
+
+
         
     </div>
 
@@ -62,6 +44,9 @@
 
 
     <script src="/assets/bootstrap/bootstrap.js"></script>
+    <script>
+        loadpage("./front/main.php");
+    </script>
 </body>
 
 </html>
