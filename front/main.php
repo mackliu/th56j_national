@@ -1,3 +1,4 @@
+    <?php include_once "../api/db.php";?>
         <section class="articles">
             <?php for($i=0; $i<5;$i++):;?>
             <article class="article-item w-100 border rounded p-3 my-2">
