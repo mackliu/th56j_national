@@ -25,12 +25,17 @@
                 <a href="javascript:loadpage('./front/friends-page.php')" class="btn btn-info mx-2 friends-link">好友</a>
             </nav>
             <div class="user-area">
-                <a href="javascript:loadpage('./front/login.php')" class="btn btn-primary mx-2 login-link">登入</a>
-                <a href="javascript:loadpage('./front/register.php')" class="btn btn-success mx-2 register-link">註冊</a>
+                <?php if(!isset($_SESSION['login'])): ;?>
+                <div class='nav-btn'>
+                    <a href="javascript:loadpage('./front/login.php')" class="btn btn-primary mx-2 login-link">登入</a>
+                    <a href="javascript:loadpage('./front/register.php')" class="btn btn-success mx-2 register-link">註冊</a>
+                </div>
+                <?php else:;?>
                 <div class="user-badge">
                     <a href="javascript:loadpage('./front/profile-page.php')" class="btn btn-success mx-2 profile-link">個人頁面入口</a>
-                    <a href="" class="btn btn-success mx-2 logout-link">登出</a>
+                    <a href="javascript:location.href='./api/logout.php'" class="btn btn-success mx-2 logout-link">登出</a>
                 </div>
+                <?php endif;?>
             </div>
         </header>
         <main class="p-3" id="content">
