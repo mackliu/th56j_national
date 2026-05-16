@@ -6,18 +6,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fun Tech</title>
-    <link rel="stylesheet" href="/assets/bootstrap/bootstrap.css">
-    <link rel="stylesheet" href="assets/style.css">
-    <script src="/assets/jquery/jquery.js"></script>
-    <script src="/assets/js.js"></script>
-
+    <link rel="stylesheet" href="./assets/bootstrap/bootstrap.css">
+    <link rel="stylesheet" href="./assets/style.css">
+    <script src="./assets/jquery/jquery.js"></script>
+    <script src="./assets/js.js"></script>
 </head>
 
 <body>
     <div id="home" class='container'>
         <header class="site-header d-flex p-3 justify-content-between border-bottom">
             <div class="brand" style='border:1px solid #ccc;width:30px;height:30px;background:green'>
-                <a href="" class="brand-link"></a>
+                <a href="index.php" class="brand-link">
+                    <img src="./assets/logo.png" alt="" style="width:48px">
+                </a>
             </div>
             <nav class="main-nav">
                 <a href="javascript:loadpage('./front/main.php')" class="btn btn-info mx-2 home-link">首頁</a>
@@ -39,17 +40,9 @@
             </div>
         </header>
         <main class="p-3" id="content">
-
         </main>
-
-
-        
     </div>
-
-
-
-
-    <script src="/assets/bootstrap/bootstrap.js"></script>
+    <script src="./assets/bootstrap/bootstrap.js"></script>
     <script>
         loadpage("./front/main.php");
     </script>

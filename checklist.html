@@ -1,0 +1,1686 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FunTech 競賽試題 Check List｜第56屆全國技能競賽</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --bg2: #1a1d2e;
+    --card: #1e2235;
+    --border: #2d3154;
+    --accent1: #4f8ef7;
+    --accent2: #38dcc8;
+    --accent3: #f7b731;
+    --text: #e0e6f0;
+    --muted: #7a8aaa;
+    --done-bg: #1a1d2e;
+    --done-text: #444c6a;
+    --done-border: #252840;
+    --tag-bg: #1b2240;
+    --tag-text: #6a9fda;
+    --green: #3dd68c;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', 'Microsoft JhengHei', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 24px 16px 60px;
+  }
+
+  /* ── Header ── */
+  .page-header {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+  .page-header h1 {
+    font-size: 1.7rem;
+    font-weight: 800;
+    background: linear-gradient(90deg, var(--accent1), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 6px;
+  }
+  .page-header p { color: var(--muted); font-size: .9rem; }
+
+  /* ── 進度總覽 ── */
+  .progress-bar-wrap {
+    max-width: 820px;
+    margin: 0 auto 30px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px 24px;
+  }
+  .progress-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: .9rem;
+  }
+  .progress-info strong { color: var(--accent2); font-size: 1.1rem; }
+  .bar-track {
+    background: #252840;
+    border-radius: 99px;
+    height: 10px;
+    overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%;
+    border-radius: 99px;
+    background: linear-gradient(90deg, var(--accent1), var(--accent2));
+    transition: width .4s ease;
+  }
+
+  /* ── 全展開/收合 ── */
+  .global-actions {
+    max-width: 820px;
+    margin: 0 auto 20px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .btn-ghost {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    border-radius: 8px;
+    padding: 6px 14px;
+    font-size: .8rem;
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .btn-ghost:hover { border-color: var(--accent1); color: var(--accent1); }
+
+  /* ── Module Card ── */
+  .module {
+    max-width: 820px;
+    margin: 0 auto 20px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .module-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    cursor: pointer;
+    user-select: none;
+    border-bottom: 1px solid transparent;
+    transition: background .2s;
+  }
+  .module-header:hover { background: #22263a; }
+  .module-header.open { border-bottom-color: var(--border); }
+
+  .module-badge {
+    width: 34px; height: 34px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: .85rem;
+    flex-shrink: 0;
+  }
+  .mod1 { background: #1a2a4a; color: var(--accent1); }
+  .mod2 { background: #162e2a; color: var(--accent2); }
+  .mod3 { background: #2a2416; color: var(--accent3); }
+  .mod4 { background: #2a1628; color: #d97af7; }
+  .mod5 { background: #1e2a18; color: var(--green); }
+
+  .module-title {
+    flex: 1;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: .02em;
+  }
+  .module-stats {
+    font-size: .78rem;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .module-stats .done-count { color: var(--accent2); font-weight: 700; }
+  .chevron {
+    font-size: .75rem;
+    color: var(--muted);
+    transition: transform .3s;
+  }
+  .module-header.open .chevron { transform: rotate(180deg); }
+
+  /* ── Section (項目) ── */
+  .module-body { display: none; }
+  .module-body.open { display: block; }
+
+  .section-group {
+    border-bottom: 1px solid var(--border);
+  }
+  .section-group:last-child { border-bottom: none; }
+
+  .section-title-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 20px 11px 20px;
+    background: #191d30;
+    cursor: pointer;
+    user-select: none;
+  }
+  .section-title-bar:hover { background: #1e2238; }
+  .section-label {
+    font-size: .82rem;
+    font-weight: 700;
+    color: var(--accent1);
+    letter-spacing: .04em;
+    text-transform: uppercase;
+  }
+  .section-sub { color: var(--muted); font-size: .78rem; flex: 1; }
+  .section-prog { font-size: .75rem; color: var(--muted); white-space: nowrap; }
+  .section-prog .s-done { color: var(--green); font-weight: 700; }
+
+  .section-items { display: none; padding: 8px 0; }
+  .section-items.open { display: block; }
+
+  /* ── Check Item ── */
+  .check-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 9px 20px 9px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background .15s;
+    position: relative;
+  }
+  .check-item:hover { background: #22263a; }
+
+  .check-item input[type="checkbox"] {
+    width: 17px; height: 17px;
+    accent-color: var(--accent2);
+    flex-shrink: 0;
+    margin-top: 2px;
+    cursor: pointer;
+  }
+
+  .item-body { flex: 1; min-width: 0; }
+
+  .item-id {
+    font-size: .7rem;
+    font-weight: 700;
+    color: var(--muted);
+    margin-bottom: 2px;
+    letter-spacing: .05em;
+  }
+
+  .item-text {
+    font-size: .88rem;
+    line-height: 1.5;
+    color: var(--text);
+    transition: color .2s;
+  }
+
+  .item-selector {
+    display: inline-block;
+    background: var(--tag-bg);
+    color: var(--tag-text);
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: .72rem;
+    padding: 1px 7px;
+    border-radius: 5px;
+    margin-top: 4px;
+    word-break: break-all;
+  }
+
+  /* done state */
+  .check-item.done .item-text {
+    color: var(--done-text);
+    text-decoration: line-through;
+    text-decoration-color: #3a4060;
+  }
+  .check-item.done .item-id { color: #3a4060; }
+  .check-item.done .item-selector {
+    background: #1a1d2e;
+    color: #3a4060;
+  }
+
+  /* sub-level indent */
+  .indent-1 { padding-left: 36px; }
+  .indent-2 { padding-left: 52px; }
+  .indent-3 { padding-left: 68px; }
+
+  /* ── Footer ── */
+  .footer {
+    text-align: center;
+    color: var(--muted);
+    font-size: .75rem;
+    margin-top: 36px;
+  }
+  .footer span { color: var(--accent2); }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>🏆 FunTech 競賽試題 Check List</h1>
+  <p>第 56 屆全國技能競賽網頁技術青少年組｜勾選已完成項目，進度自動儲存</p>
+</div>
+
+<!-- 總進度 -->
+<div class="progress-bar-wrap">
+  <div class="progress-info">
+    <span>整體完成進度</span>
+    <strong id="total-pct">0%</strong>
+  </div>
+  <div class="bar-track"><div class="bar-fill" id="total-bar" style="width:0%"></div></div>
+  <div class="progress-info" style="margin-top:10px;margin-bottom:0">
+    <span style="font-size:.82rem;color:var(--muted)">已完成 <span id="done-count" style="color:var(--accent2);font-weight:700">0</span> / <span id="total-count">0</span> 項</span>
+    <span id="time-label" style="font-size:.78rem;color:var(--muted)"></span>
+  </div>
+</div>
+
+<div class="global-actions">
+  <button class="btn-ghost" onclick="expandAll()">▼ 全部展開</button>
+  <button class="btn-ghost" onclick="collapseAll()">▲ 全部收合</button>
+  <button class="btn-ghost" onclick="resetAll()" style="margin-left:auto;color:#e06060;border-color:#3a2020">↺ 重設所有勾選</button>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     模組 1：視覺與網頁介面設計
+════════════════════════════════════════════════════ -->
+<div class="module" id="mod-1">
+  <div class="module-header" onclick="toggleModule('mod-1')">
+    <div class="module-badge mod1">M1</div>
+    <div class="module-title">模組 1：「FunTech 社群網站」視覺與網頁介面設計</div>
+    <div class="module-stats"><span class="done-count" id="mod-1-done">0</span>/<span id="mod-1-total">0</span></div>
+    <div class="chevron">▼</div>
+  </div>
+  <div class="module-body" id="mod-1-body">
+    <div class="section-group">
+      <div class="section-title-bar" onclick="toggleSection('sec-1-1')">
+        <span class="section-label">視覺設計</span>
+        <span class="section-sub">LOGO、ICON、網頁介面</span>
+        <span class="section-prog"><span class="s-done" id="sec-1-1-done">0</span>/<span id="sec-1-1-total">0</span></span>
+      </div>
+      <div class="section-items open" id="sec-1-1-items">
+        <div class="check-item" data-section="sec-1-1">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">M1-1</div>
+            <div class="item-text">製作 FunTech LOGO 標誌</div>
+          </div>
+        </div>
+        <div class="check-item" data-section="sec-1-1">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">M1-2</div>
+            <div class="item-text">製作網站 ICON（128×128）</div>
+            <div class="item-selector">assets/icon.png</div>
+          </div>
+        </div>
+        <div class="check-item" data-section="sec-1-1">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">M1-3</div>
+            <div class="item-text">完成網頁介面整體視覺設計</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     模組 2 → 項目 1：首頁版面設計與個人頁面
+════════════════════════════════════════════════════ -->
+<div class="module" id="mod-2">
+  <div class="module-header" onclick="toggleModule('mod-2')">
+    <div class="module-badge mod2">M2</div>
+    <div class="module-title">模組 2 — 項目 1：首頁版面設計與個人頁面功能開發</div>
+    <div class="module-stats"><span class="done-count" id="mod-2-done">0</span>/<span id="mod-2-total">0</span></div>
+    <div class="chevron">▼</div>
+  </div>
+  <div class="module-body" id="mod-2-body">
+
+    <!-- 1. 首頁 -->
+    <div class="section-group">
+      <div class="section-title-bar" onclick="toggleSection('sec-2-1')">
+        <span class="section-label">1. 首頁</span>
+        <span class="section-sub">Home Page</span>
+        <span class="section-prog"><span class="s-done" id="sec-2-1-done">0</span>/<span id="sec-2-1-total">0</span></span>
+      </div>
+      <div class="section-items" id="sec-2-1-items">
+
+        <div class="check-item" data-section="sec-2-1">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">1.1</div>
+            <div class="item-text">首頁需有可辨識的根容器，包住整個首頁內容</div>
+            <div class="item-selector">#home</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-1" data-section="sec-2-1">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">1.2.1</div>
+            <div class="item-text">頁面頂端需有頁首導覽列容器</div>
+            <div class="item-selector">header.site-header</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-2" data-section="sec-2-1">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">1.2.2.1</div>
+            <div class="item-text">FunTech Logo，並可點擊回到首頁</div>
+            <div class="item-selector">.site-header .brand a.brand-link</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-2" data-section="sec-2-1">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">1.2.2.2</div>
+            <div class="item-text">主要導覽列容器</div>
+            <div class="item-selector">.site-header nav.main-nav</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-3" data-section="sec-2-1">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">1.2.2.2.1</div>
+            <div class="item-text">「首頁」連結，用以返回網站首頁</div>
+            <div class="item-selector">.site-header nav.main-nav a.home-link</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-3" data-section="sec-2-1">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">1.2.2.2.2</div>
+            <div class="item-text">「遊戲」連結，用以進入平台的遊戲列表頁面</div>
+            <div class="item-selector">.site-header nav.main-nav a.games-link</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-3" data-section="sec-2-1">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">1.2.2.2.3</div>
+            <div class="item-text">「好友」連結，用以進入好友列表頁面</div>
+            <div class="item-selector">.site-header nav.main-nav a.friends-link</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-2" data-section="sec-2-1">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">1.2.2.3</div>
+            <div class="item-text">「使用者區域」容器</div>
+            <div class="item-selector">.site-header .user-area</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-3" data-section="sec-2-1">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">1.2.2.3.1</div>
+            <div class="item-text">未登入狀態時顯示「登入」連結及「註冊」連結</div>
+            <div class="item-selector">.user-area a.login-link &nbsp;|&nbsp; .user-area a.register-link</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-3" data-section="sec-2-1">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">1.2.2.3.2</div>
+            <div class="item-text">已登入狀態時顯示：使用者名稱/頭像區塊、個人頁面入口、「登出」按鈕</div>
+            <div class="item-selector">.user-area .user-badge &nbsp;|&nbsp; .user-area a.profile-link &nbsp;|&nbsp; .user-area a.logout-link</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-1" data-section="sec-2-1">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">1.3.1</div>
+            <div class="item-text">首頁需有文章區塊容器</div>
+            <div class="item-selector">section.articles</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-1" data-section="sec-2-1">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">1.3.2</div>
+            <div class="item-text">文章列表呈現多筆文章（語意化元素）</div>
+            <div class="item-selector">section.articles article.article-item</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-2" data-section="sec-2-1">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">1.3.3.1</div>
+            <div class="item-text">每筆文章的「文章標題」</div>
+            <div class="item-selector">.article-item .article-title</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-2" data-section="sec-2-1">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">1.3.3.2</div>
+            <div class="item-text">每筆文章的「發佈日期」</div>
+            <div class="item-selector">.article-item time.article-date</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-2" data-section="sec-2-1">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">1.3.3.3</div>
+            <div class="item-text">每筆文章的「文章摘要」</div>
+            <div class="item-selector">.article-item .article-excerpt</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-2" data-section="sec-2-1">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">1.3.3.4</div>
+            <div class="item-text">每筆文章的「閱讀更多」連結，點擊可前往文章內容頁</div>
+            <div class="item-selector">.article-item a.article-readmore</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-1" data-section="sec-2-1">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">1.4.1</div>
+            <div class="item-text">首頁需有通知／公告區塊容器</div>
+            <div class="item-selector">aside.notifications</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-1" data-section="sec-2-1">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">1.4.2</div>
+            <div class="item-text">通知列表呈現多則通知</div>
+            <div class="item-selector">aside.notifications .notification-item</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-2" data-section="sec-2-1">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">1.4.3.1</div>
+            <div class="item-text">每則通知的「通知標題」</div>
+            <div class="item-selector">.notification-item .notification-title</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-2" data-section="sec-2-1">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">1.4.3.2</div>
+            <div class="item-text">每則通知的「發佈日期」</div>
+            <div class="item-selector">.notification-item time.notification-date</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 2. 文章內容頁 -->
+    <div class="section-group">
+      <div class="section-title-bar" onclick="toggleSection('sec-2-2')">
+        <span class="section-label">2. 文章內容頁</span>
+        <span class="section-sub">Article Page</span>
+        <span class="section-prog"><span class="s-done" id="sec-2-2-done">0</span>/<span id="sec-2-2-total">0</span></span>
+      </div>
+      <div class="section-items" id="sec-2-2-items">
+
+        <div class="check-item" data-section="sec-2-2">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">2.1</div>
+            <div class="item-text">文章內容頁需有可辨識的根容器包住整個頁面內容</div>
+            <div class="item-selector">#article</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-1" data-section="sec-2-2">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">2.2.1</div>
+            <div class="item-text">文章需包含標題區塊</div>
+            <div class="item-selector">#article header.article-header</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-2" data-section="sec-2-2">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">2.2.2.1</div>
+            <div class="item-text">標題區塊顯示「文章標題」</div>
+            <div class="item-selector">.article-header h1.article-title</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-2" data-section="sec-2-2">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">2.2.2.2</div>
+            <div class="item-text">標題區塊顯示「文章發布日期」</div>
+            <div class="item-selector">.article-header time.article-date</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-1" data-section="sec-2-2">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">2.3.1</div>
+            <div class="item-text">文章需包含內容區塊</div>
+            <div class="item-selector">#article section.article-body</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 3. 個人頁面 -->
+    <div class="section-group">
+      <div class="section-title-bar" onclick="toggleSection('sec-2-3')">
+        <span class="section-label">3. 個人頁面</span>
+        <span class="section-sub">Profile Page</span>
+        <span class="section-prog"><span class="s-done" id="sec-2-3-done">0</span>/<span id="sec-2-3-total">0</span></span>
+      </div>
+      <div class="section-items" id="sec-2-3-items">
+
+        <div class="check-item" data-section="sec-2-3">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">3.1</div>
+            <div class="item-text">個人頁面需有可辨識的根容器</div>
+            <div class="item-selector">#profile-page</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-1" data-section="sec-2-3">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">3.2.1</div>
+            <div class="item-text">頁面需包含使用者資訊區塊</div>
+            <div class="item-selector">section.profile-header</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-2" data-section="sec-2-3">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">3.2.2.1</div>
+            <div class="item-text">顯示使用者頭像（可為預設圖片）</div>
+            <div class="item-selector">.profile-header img.profile-avatar</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-2" data-section="sec-2-3">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">3.2.2.2</div>
+            <div class="item-text">顯示使用者名稱</div>
+            <div class="item-selector">.profile-header .profile-username</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-2" data-section="sec-2-3">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">3.2.2.3</div>
+            <div class="item-text">顯示簡介文字（無簡介時顯示「尚未填寫自我介紹」）</div>
+            <div class="item-selector">.profile-header .profile-bio</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-2" data-section="sec-2-3">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">3.2.3.1</div>
+            <div class="item-text">點擊頭像圖片時觸發圖片上傳功能</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-2" data-section="sec-2-3">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">3.2.3.2</div>
+            <div class="item-text">系統開啟檔案選擇視窗供使用者選擇圖片</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-2" data-section="sec-2-3">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">3.2.3.3 ~ 3.4</div>
+            <div class="item-text">選擇圖片後更新頭像，更新成功後頁面即時更新顯示</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-2" data-section="sec-2-3">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">3.2.3.5</div>
+            <div class="item-text">上傳失敗時透過 alert 顯示「頭像上傳失敗」</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-2" data-section="sec-2-3">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">3.2.4.1</div>
+            <div class="item-text">點擊簡介文字時，簡介區轉為可編輯狀態</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-2" data-section="sec-2-3">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">3.2.4.2</div>
+            <div class="item-text">顯示簡介輸入欄位</div>
+            <div class="item-selector">.profile-header textarea.profile-bio-input</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-2" data-section="sec-2-3">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">3.2.4.3 ~ 4</div>
+            <div class="item-text">按 Enter 鍵儲存，儲存成功後即時更新簡介文字</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-2" data-section="sec-2-3">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">3.2.4.5</div>
+            <div class="item-text">儲存失敗時透過 alert 顯示「簡介更新失敗」</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-1" data-section="sec-2-3">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">3.3.1</div>
+            <div class="item-text">已登入且瀏覽自己個人頁面時，顯示「發表文章」連結</div>
+            <div class="item-selector">a.new-post-link</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-1" data-section="sec-2-3">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">3.3.2</div>
+            <div class="item-text">文章發布區需包含文章表單容器</div>
+            <div class="item-selector">form.article-create-form</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-2" data-section="sec-2-3">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">3.3.3.1</div>
+            <div class="item-text">文章標題輸入欄位</div>
+            <div class="item-selector">.article-create-form input.article-title-input</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-2" data-section="sec-2-3">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">3.3.3.2</div>
+            <div class="item-text">文章內容輸入欄位</div>
+            <div class="item-selector">.article-create-form textarea.article-content-input</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-2" data-section="sec-2-3">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">3.3.3.3</div>
+            <div class="item-text">發布文章按鈕</div>
+            <div class="item-selector">.article-create-form button.article-submit-button</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-1" data-section="sec-2-3">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">3.3.4</div>
+            <div class="item-text">發表文章成功時 alert「發表成功」並連結至新文章內容頁</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-1" data-section="sec-2-3">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">3.4.1</div>
+            <div class="item-text">頁面包含使用者文章區塊</div>
+            <div class="item-selector">section.profile-articles</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-1" data-section="sec-2-3">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">3.4.2</div>
+            <div class="item-text">每篇文章為一個文章項目</div>
+            <div class="item-selector">.profile-articles .article-item</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-2" data-section="sec-2-3">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">3.4.3.1</div>
+            <div class="item-text">文章標題</div>
+            <div class="item-selector">.article-item .article-title</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-2" data-section="sec-2-3">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">3.4.3.2</div>
+            <div class="item-text">發佈日期</div>
+            <div class="item-selector">.article-item time.article-date</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-2" data-section="sec-2-3">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">3.4.3.3 ~ 4</div>
+            <div class="item-text">閱讀文章連結，點擊後導向該文章內容頁</div>
+            <div class="item-selector">.article-item a.article-readmore</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-1" data-section="sec-2-3">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">3.4.4</div>
+            <div class="item-text">尚未發表任何文章時顯示「目前尚無文章」</div>
+            <div class="item-selector">.profile-articles .empty-article-message</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     項目 2：會員登入與註冊系統
+════════════════════════════════════════════════════ -->
+<div class="module" id="mod-3">
+  <div class="module-header" onclick="toggleModule('mod-3')">
+    <div class="module-badge mod3">P2</div>
+    <div class="module-title">模組 2 — 項目 2：會員登入與註冊系統</div>
+    <div class="module-stats"><span class="done-count" id="mod-3-done">0</span>/<span id="mod-3-total">0</span></div>
+    <div class="chevron">▼</div>
+  </div>
+  <div class="module-body" id="mod-3-body">
+
+    <!-- 登入頁面 -->
+    <div class="section-group">
+      <div class="section-title-bar" onclick="toggleSection('sec-3-1')">
+        <span class="section-label">1. 登入頁面</span>
+        <span class="section-sub">Login</span>
+        <span class="section-prog"><span class="s-done" id="sec-3-1-done">0</span>/<span id="sec-3-1-total">0</span></span>
+      </div>
+      <div class="section-items" id="sec-3-1-items">
+
+        <div class="check-item" data-section="sec-3-1">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">1.1</div>
+            <div class="item-text">登入頁面需包含登入表單容器</div>
+            <div class="item-selector">form.login-form</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-1" data-section="sec-3-1">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">1.2.1</div>
+            <div class="item-text">使用者帳號輸入欄位</div>
+            <div class="item-selector">.login-form input.username-input</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-1" data-section="sec-3-1">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">1.2.2</div>
+            <div class="item-text">使用者密碼輸入欄位</div>
+            <div class="item-selector">.login-form input.password-input</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-1" data-section="sec-3-1">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">1.2.3</div>
+            <div class="item-text">登入送出按鈕</div>
+            <div class="item-selector">.login-form button.login-submit-button</div>
+          </div>
+        </div>
+
+        <div class="check-item" data-section="sec-3-1">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">1.3</div>
+            <div class="item-text">輸入帳號與密碼後，點擊登入按鈕送出登入請求並進行驗證</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 註冊頁面 -->
+    <div class="section-group">
+      <div class="section-title-bar" onclick="toggleSection('sec-3-2')">
+        <span class="section-label">2. 註冊頁面</span>
+        <span class="section-sub">Register</span>
+        <span class="section-prog"><span class="s-done" id="sec-3-2-done">0</span>/<span id="sec-3-2-total">0</span></span>
+      </div>
+      <div class="section-items" id="sec-3-2-items">
+
+        <div class="check-item" data-section="sec-3-2">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">2.1</div>
+            <div class="item-text">註冊頁面需包含註冊表單容器</div>
+            <div class="item-selector">form.register-form</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-1" data-section="sec-3-2">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">2.2.1</div>
+            <div class="item-text">使用者帳號輸入欄位</div>
+            <div class="item-selector">.register-form input.username-input</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-1" data-section="sec-3-2">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">2.2.2</div>
+            <div class="item-text">使用者電子郵件欄位</div>
+            <div class="item-selector">.register-form input.email-input</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-1" data-section="sec-3-2">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">2.2.3</div>
+            <div class="item-text">使用者密碼輸入欄位</div>
+            <div class="item-selector">.register-form input.password-input</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-1" data-section="sec-3-2">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">2.2.4</div>
+            <div class="item-text">確認密碼輸入欄位</div>
+            <div class="item-selector">.register-form input.password-confirm-input</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-1" data-section="sec-3-2">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">2.2.5</div>
+            <div class="item-text">註冊送出按鈕</div>
+            <div class="item-selector">.register-form button.register-submit</div>
+          </div>
+        </div>
+
+        <div class="check-item" data-section="sec-3-2">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">2.3</div>
+            <div class="item-text">填寫資料並送出後，系統需建立新帳號</div>
+          </div>
+        </div>
+
+        <div class="check-item" data-section="sec-3-2">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">2.4</div>
+            <div class="item-text">註冊成功後導向登入頁面</div>
+          </div>
+        </div>
+
+        <div class="check-item" data-section="sec-3-2">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">2.5</div>
+            <div class="item-text">帳號已存在或資料格式錯誤時透過 alert 顯示相應錯誤訊息</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 登出 -->
+    <div class="section-group">
+      <div class="section-title-bar" onclick="toggleSection('sec-3-3')">
+        <span class="section-label">3. 登出</span>
+        <span class="section-sub">Logout</span>
+        <span class="section-prog"><span class="s-done" id="sec-3-3-done">0</span>/<span id="sec-3-3-total">0</span></span>
+      </div>
+      <div class="section-items" id="sec-3-3-items">
+        <div class="check-item" data-section="sec-3-3">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">3</div>
+            <div class="item-text">實作登出功能，登出後清除登入狀態並導向適當頁面</div>
+            <div class="item-selector">.user-area a.logout-link</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     項目 3：好友系統
+════════════════════════════════════════════════════ -->
+<div class="module" id="mod-4">
+  <div class="module-header" onclick="toggleModule('mod-4')">
+    <div class="module-badge mod4">P3</div>
+    <div class="module-title">模組 2 — 項目 3：好友系統（Friend System）</div>
+    <div class="module-stats"><span class="done-count" id="mod-4-done">0</span>/<span id="mod-4-total">0</span></div>
+    <div class="chevron">▼</div>
+  </div>
+  <div class="module-body" id="mod-4-body">
+
+    <!-- 好友頁面結構 -->
+    <div class="section-group">
+      <div class="section-title-bar" onclick="toggleSection('sec-4-1')">
+        <span class="section-label">1. 好友頁面結構</span>
+        <span class="section-sub">Friends Page Layout</span>
+        <span class="section-prog"><span class="s-done" id="sec-4-1-done">0</span>/<span id="sec-4-1-total">0</span></span>
+      </div>
+      <div class="section-items" id="sec-4-1-items">
+
+        <div class="check-item" data-section="sec-4-1">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">1.1.1</div>
+            <div class="item-text">好友頁主容器</div>
+            <div class="item-selector">#friends-page</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-1" data-section="sec-4-1">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">1.1.1.1</div>
+            <div class="item-text">使用者搜尋功能區塊</div>
+            <div class="item-selector">#friends-page .friend-search-section</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-1" data-section="sec-4-1">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">1.1.1.2</div>
+            <div class="item-text">我的好友列表區塊</div>
+            <div class="item-selector">#friends-page .friend-list-section</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-1" data-section="sec-4-1">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">1.1.1.3</div>
+            <div class="item-text">我收到的好友邀請區塊</div>
+            <div class="item-selector">#friends-page .incoming-requests-section</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-1" data-section="sec-4-1">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">1.1.1.4</div>
+            <div class="item-text">我送出的好友申請區塊</div>
+            <div class="item-selector">#friends-page .sent-requests-section</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 搜尋使用者 -->
+    <div class="section-group">
+      <div class="section-title-bar" onclick="toggleSection('sec-4-2')">
+        <span class="section-label">2. 搜尋使用者</span>
+        <span class="section-sub">Search Users</span>
+        <span class="section-prog"><span class="s-done" id="sec-4-2-done">0</span>/<span id="sec-4-2-total">0</span></span>
+      </div>
+      <div class="section-items" id="sec-4-2-items">
+
+        <div class="check-item" data-section="sec-4-2">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">2.1</div>
+            <div class="item-text">搜尋區塊需包含搜尋表單容器</div>
+            <div class="item-selector">form.friend-search-form</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-1" data-section="sec-4-2">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">2.2.1</div>
+            <div class="item-text">搜尋輸入欄位</div>
+            <div class="item-selector">.friend-search-form input.search-input</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-1" data-section="sec-4-2">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">2.2.2</div>
+            <div class="item-text">搜尋按鈕</div>
+            <div class="item-selector">.friend-search-form button.search-submit-button</div>
+          </div>
+        </div>
+
+        <div class="check-item" data-section="sec-4-2">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">2.3</div>
+            <div class="item-text">輸入關鍵字並點擊搜尋後，送出搜尋請求並更新搜尋結果</div>
+          </div>
+        </div>
+
+        <div class="check-item" data-section="sec-4-2">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">2.4</div>
+            <div class="item-text">搜尋結果顯示於搜尋結果清單容器</div>
+            <div class="item-selector">.friend-search-section .search-result-list</div>
+          </div>
+        </div>
+
+        <div class="check-item" data-section="sec-4-2">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">2.5</div>
+            <div class="item-text">每一筆搜尋結果為一個結果項目</div>
+            <div class="item-selector">.search-result-list .search-result-item</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-1" data-section="sec-4-2">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">2.6.1</div>
+            <div class="item-text">顯示使用者名稱</div>
+            <div class="item-selector">.search-result-item .result-username</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-1" data-section="sec-4-2">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">2.6.2</div>
+            <div class="item-text">前往個人頁面連結</div>
+            <div class="item-selector">.search-result-item a.view-profile-link</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 好友列表 -->
+    <div class="section-group">
+      <div class="section-title-bar" onclick="toggleSection('sec-4-3')">
+        <span class="section-label">3. 我的好友列表</span>
+        <span class="section-sub">Friend List</span>
+        <span class="section-prog"><span class="s-done" id="sec-4-3-done">0</span>/<span id="sec-4-3-total">0</span></span>
+      </div>
+      <div class="section-items" id="sec-4-3-items">
+
+        <div class="check-item" data-section="sec-4-3">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">3.1</div>
+            <div class="item-text">好友列表區塊需顯示標題「好友列表」</div>
+            <div class="item-selector">.friend-list-section .section-title</div>
+          </div>
+        </div>
+
+        <div class="check-item" data-section="sec-4-3">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">3.2</div>
+            <div class="item-text">顯示目前使用者的所有好友</div>
+            <div class="item-selector">.friend-list-section .friend-item</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-1" data-section="sec-4-3">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">3.3.1</div>
+            <div class="item-text">好友頭像</div>
+            <div class="item-selector">.friend-item img.friend-avatar</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-1" data-section="sec-4-3">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">3.3.2</div>
+            <div class="item-text">好友名稱</div>
+            <div class="item-selector">.friend-item .friend-name</div>
+          </div>
+        </div>
+
+        <div class="check-item" data-section="sec-4-3">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">3.4</div>
+            <div class="item-text">點擊好友項目時，導向該好友的個人頁面</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 收到的好友邀請 -->
+    <div class="section-group">
+      <div class="section-title-bar" onclick="toggleSection('sec-4-4')">
+        <span class="section-label">4. 收到的好友邀請</span>
+        <span class="section-sub">Incoming Requests</span>
+        <span class="section-prog"><span class="s-done" id="sec-4-4-done">0</span>/<span id="sec-4-4-total">0</span></span>
+      </div>
+      <div class="section-items" id="sec-4-4-items">
+
+        <div class="check-item" data-section="sec-4-4">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">4.1</div>
+            <div class="item-text">顯示標題「收到的好友申請」</div>
+            <div class="item-selector">.incoming-requests-section .section-title</div>
+          </div>
+        </div>
+
+        <div class="check-item" data-section="sec-4-4">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">4.2 ~ 4.3</div>
+            <div class="item-text">顯示收到的好友申請列表，每筆申請為一個項目</div>
+            <div class="item-selector">.incoming-requests-section .request-item</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-1" data-section="sec-4-4">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">4.4.1</div>
+            <div class="item-text">申請者頭像</div>
+            <div class="item-selector">.request-item img.request-avatar</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-1" data-section="sec-4-4">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">4.4.2</div>
+            <div class="item-text">申請者名稱</div>
+            <div class="item-selector">.request-item .request-username</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-1" data-section="sec-4-4">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">4.4.3</div>
+            <div class="item-text">接受好友按鈕</div>
+            <div class="item-selector">.request-item button.accept-request-button</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-1" data-section="sec-4-4">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">4.4.4</div>
+            <div class="item-text">拒絕好友按鈕</div>
+            <div class="item-selector">.request-item button.reject-request-button</div>
+          </div>
+        </div>
+
+        <div class="check-item" data-section="sec-4-4">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">4.5</div>
+            <div class="item-text">點擊「接受」後建立好友關係並加入好友列表</div>
+          </div>
+        </div>
+
+        <div class="check-item" data-section="sec-4-4">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">4.6</div>
+            <div class="item-text">點擊「拒絕」後，該好友申請從列表中移除</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 送出的好友申請 -->
+    <div class="section-group">
+      <div class="section-title-bar" onclick="toggleSection('sec-4-5')">
+        <span class="section-label">5. 送出的好友申請</span>
+        <span class="section-sub">Sent Requests</span>
+        <span class="section-prog"><span class="s-done" id="sec-4-5-done">0</span>/<span id="sec-4-5-total">0</span></span>
+      </div>
+      <div class="section-items" id="sec-4-5-items">
+
+        <div class="check-item" data-section="sec-4-5">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">5.1</div>
+            <div class="item-text">顯示標題「發送的好友申請」</div>
+            <div class="item-selector">.sent-requests-section .section-title</div>
+          </div>
+        </div>
+
+        <div class="check-item" data-section="sec-4-5">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">5.2 ~ 5.3</div>
+            <div class="item-text">顯示送出的好友申請列表，每筆申請為一個項目</div>
+            <div class="item-selector">.sent-requests-section .request-item</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-1" data-section="sec-4-5">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">5.4.1</div>
+            <div class="item-text">對方使用者頭像</div>
+            <div class="item-selector">.request-item img.request-avatar</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-1" data-section="sec-4-5">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">5.4.2</div>
+            <div class="item-text">對方使用者名稱</div>
+            <div class="item-selector">.request-item .request-username</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-1" data-section="sec-4-5">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">5.4.3</div>
+            <div class="item-text">取消申請按鈕</div>
+            <div class="item-selector">.request-item button.cancel-request-button</div>
+          </div>
+        </div>
+
+        <div class="check-item" data-section="sec-4-5">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">5.5</div>
+            <div class="item-text">點擊「取消」後取消該好友申請並從列表移除</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 好友個人頁面 -->
+    <div class="section-group">
+      <div class="section-title-bar" onclick="toggleSection('sec-4-6')">
+        <span class="section-label">6. 好友個人頁面</span>
+        <span class="section-sub">Friend Profile Page</span>
+        <span class="section-prog"><span class="s-done" id="sec-4-6-done">0</span>/<span id="sec-4-6-total">0</span></span>
+      </div>
+      <div class="section-items" id="sec-4-6-items">
+
+        <div class="check-item" data-section="sec-4-6">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">6.1</div>
+            <div class="item-text">好友個人頁面主容器</div>
+            <div class="item-selector">#profile-page</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-1" data-section="sec-4-6">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">6.1.1</div>
+            <div class="item-text">使用者資訊區塊</div>
+            <div class="item-selector">#profile-page .profile-header</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-2" data-section="sec-4-6">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">6.1.1.1</div>
+            <div class="item-text">使用者名稱</div>
+            <div class="item-selector">.profile-header .profile-username</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-2" data-section="sec-4-6">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">6.1.1.2</div>
+            <div class="item-text">圖片（可為預設圖片）</div>
+            <div class="item-selector">.profile-header img.profile-avatar</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-2" data-section="sec-4-6">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">6.1.1.3</div>
+            <div class="item-text">簡介文字（無簡介時顯示「尚未填寫自我介紹」）</div>
+            <div class="item-selector">.profile-header .profile-bio</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-1" data-section="sec-4-6">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">6.1.2</div>
+            <div class="item-text">內容展示區塊（含文章列表，結構同首頁文章）</div>
+            <div class="item-selector">#profile-page .profile-content &gt; section.articles article.article-item</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-1" data-section="sec-4-6">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">6.1.3</div>
+            <div class="item-text">好友互動操作區塊（根據好友狀態呈現不同操作）</div>
+            <div class="item-selector">#profile-page .profile-friend-actions</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     項目 4：遊戲頁面
+════════════════════════════════════════════════════ -->
+<div class="module" id="mod-5">
+  <div class="module-header" onclick="toggleModule('mod-5')">
+    <div class="module-badge mod5">P4</div>
+    <div class="module-title">模組 2 — 項目 4：遊戲頁面（Games）</div>
+    <div class="module-stats"><span class="done-count" id="mod-5-done">0</span>/<span id="mod-5-total">0</span></div>
+    <div class="chevron">▼</div>
+  </div>
+  <div class="module-body" id="mod-5-body">
+
+    <!-- 遊戲列表頁面 -->
+    <div class="section-group">
+      <div class="section-title-bar" onclick="toggleSection('sec-5-1')">
+        <span class="section-label">1. 遊戲列表頁面</span>
+        <span class="section-sub">Games List</span>
+        <span class="section-prog"><span class="s-done" id="sec-5-1-done">0</span>/<span id="sec-5-1-total">0</span></span>
+      </div>
+      <div class="section-items" id="sec-5-1-items">
+
+        <div class="check-item" data-section="sec-5-1">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">1.1</div>
+            <div class="item-text">遊戲列表頁需有可辨識的根容器</div>
+            <div class="item-selector">#games</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-1" data-section="sec-5-1">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">1.2.1</div>
+            <div class="item-text">遊戲列表容器</div>
+            <div class="item-selector">#games section.game-list</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-1" data-section="sec-5-1">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">1.2.2</div>
+            <div class="item-text">遊戲列表呈現多個遊戲項目</div>
+            <div class="item-selector">.game-list .game-item</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-2" data-section="sec-5-1">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">1.2.3.1</div>
+            <div class="item-text">遊戲封面圖片</div>
+            <div class="item-selector">.game-item img.game-cover</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-2" data-section="sec-5-1">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">1.2.3.2</div>
+            <div class="item-text">遊戲名稱</div>
+            <div class="item-selector">.game-item .game-title</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-2" data-section="sec-5-1">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">1.2.3.3</div>
+            <div class="item-text">遊戲簡短介紹</div>
+            <div class="item-selector">.game-item .game-description</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-2" data-section="sec-5-1">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">1.2.3.4</div>
+            <div class="item-text">開始遊戲連結</div>
+            <div class="item-selector">.game-item a.play-game-link</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-2" data-section="sec-5-1">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">1.2.3.5</div>
+            <div class="item-text">點擊「開始遊戲」連結需導向遊戲內容頁</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 遊戲內容頁面 -->
+    <div class="section-group">
+      <div class="section-title-bar" onclick="toggleSection('sec-5-2')">
+        <span class="section-label">2. 遊戲內容頁面</span>
+        <span class="section-sub">Game Play Page</span>
+        <span class="section-prog"><span class="s-done" id="sec-5-2-done">0</span>/<span id="sec-5-2-total">0</span></span>
+      </div>
+      <div class="section-items" id="sec-5-2-items">
+
+        <div class="check-item" data-section="sec-5-2">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">2.1</div>
+            <div class="item-text">遊戲內容頁需有可辨識的根容器</div>
+            <div class="item-selector">#game-play</div>
+          </div>
+        </div>
+
+        <div class="check-item" data-section="sec-5-2">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">2.2</div>
+            <div class="item-text">顯示目前遊戲名稱</div>
+            <div class="item-selector">.current-game-title</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-1" data-section="sec-5-2">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">2.3.1</div>
+            <div class="item-text">遊戲區域容器</div>
+            <div class="item-selector">#game-play section.game-area</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-1" data-section="sec-5-2">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">2.3.2</div>
+            <div class="item-text">遊戲內容透過 iframe 載入（從 game.json entry.url 取得）</div>
+            <div class="item-selector">section.game-area iframe.game-frame</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-1" data-section="sec-5-2">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">2.4.1</div>
+            <div class="item-text">排行榜區塊</div>
+            <div class="item-selector">aside.game-leaderboard</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-1" data-section="sec-5-2">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">2.4.2</div>
+            <div class="item-text">排行榜標題</div>
+            <div class="item-selector">.game-leaderboard .leaderboard-title</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-1" data-section="sec-5-2">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">2.4.3</div>
+            <div class="item-text">排行榜呈現多筆玩家成績</div>
+            <div class="item-selector">.game-leaderboard .leaderboard-item</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-1" data-section="sec-5-2">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">2.4.4</div>
+            <div class="item-text">每筆資料顯示名次及 API 回傳的所有欄位（玩家名稱、分數等）</div>
+            <div class="item-selector">.leaderboard-item .player-rank</div>
+          </div>
+        </div>
+
+        <div class="check-item indent-1" data-section="sec-5-2">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">2.4.5</div>
+            <div class="item-text">排行榜資料為空時顯示「目前尚無分數紀錄」</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     項目 5：Web API 開發
+════════════════════════════════════════════════════ -->
+<div class="module" id="mod-6">
+  <div class="module-header" onclick="toggleModule('mod-6')">
+    <div class="module-badge mod1">P5</div>
+    <div class="module-title">模組 2 — 項目 5：Web API 開發（競賽當天公布）</div>
+    <div class="module-stats"><span class="done-count" id="mod-6-done">0</span>/<span id="mod-6-total">0</span></div>
+    <div class="chevron">▼</div>
+  </div>
+  <div class="module-body" id="mod-6-body">
+    <div class="section-group">
+      <div class="section-title-bar" onclick="toggleSection('sec-6-1')">
+        <span class="section-label">API 基本需求</span>
+        <span class="section-sub">基礎規格（題目當天公布）</span>
+        <span class="section-prog"><span class="s-done" id="sec-6-1-done">0</span>/<span id="sec-6-1-total">0</span></span>
+      </div>
+      <div class="section-items" id="sec-6-1-items">
+
+        <div class="check-item" data-section="sec-6-1">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">API-1</div>
+            <div class="item-text">所有 API 回應使用 JSON 格式</div>
+          </div>
+        </div>
+
+        <div class="check-item" data-section="sec-6-1">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">API-2</div>
+            <div class="item-text">實作基本的錯誤處理（HTTP 狀態碼 + 錯誤訊息）</div>
+          </div>
+        </div>
+
+        <div class="check-item" data-section="sec-6-1">
+          <input type="checkbox"><div class="item-body">
+            <div class="item-id">API-3</div>
+            <div class="item-text">API 資料與系統同步（當網站後台有 N 筆資料，API 回傳 N 筆）</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">由 <span>Claude</span> 依第56屆全國技能競賽試題自動生成 · 進度儲存於瀏覽器 localStorage</div>
+
+<script>
+const STORAGE_KEY = 'funtech-checklist-v1';
+
+// ── 讀取/寫入 localStorage ──────────────────────────
+function saveState() {
+  const state = {};
+  document.querySelectorAll('.check-item input[type="checkbox"]').forEach((cb, i) => {
+    state[i] = cb.checked;
+  });
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
+function loadState() {
+  try {
+    const state = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    document.querySelectorAll('.check-item input[type="checkbox"]').forEach((cb, i) => {
+      if (state[i]) {
+        cb.checked = true;
+        cb.closest('.check-item').classList.add('done');
+      }
+    });
+  } catch(e) {}
+}
+
+// ── Toggle 展開收合 ──────────────────────────────────
+function toggleModule(id) {
+  const header = document.querySelector(`#${id} .module-header`);
+  const body   = document.getElementById(`${id}-body`);
+  header.classList.toggle('open');
+  body.classList.toggle('open');
+}
+
+function toggleSection(id) {
+  const items = document.getElementById(`${id}-items`);
+  items.classList.toggle('open');
+}
+
+function expandAll() {
+  document.querySelectorAll('.module-header').forEach(h => h.classList.add('open'));
+  document.querySelectorAll('.module-body').forEach(b => b.classList.add('open'));
+  document.querySelectorAll('.section-items').forEach(s => s.classList.add('open'));
+}
+
+function collapseAll() {
+  document.querySelectorAll('.module-header').forEach(h => h.classList.remove('open'));
+  document.querySelectorAll('.module-body').forEach(b => b.classList.remove('open'));
+  document.querySelectorAll('.section-items').forEach(s => s.classList.remove('open'));
+}
+
+function resetAll() {
+  if (!confirm('確定要重設所有勾選紀錄嗎？')) return;
+  document.querySelectorAll('.check-item input[type="checkbox"]').forEach(cb => {
+    cb.checked = false;
+    cb.closest('.check-item').classList.remove('done');
+  });
+  localStorage.removeItem(STORAGE_KEY);
+  updateProgress();
+}
+
+// ── 進度計算 ─────────────────────────────────────────
+function updateProgress() {
+  // Section 進度
+  document.querySelectorAll('[id$="-items"]').forEach(sec => {
+    const secId = sec.id.replace('-items', '');
+    const all   = sec.querySelectorAll('.check-item input');
+    const done  = sec.querySelectorAll('.check-item input:checked');
+    const dEl = document.getElementById(`${secId}-done`);
+    const tEl = document.getElementById(`${secId}-total`);
+    if (dEl) dEl.textContent = done.length;
+    if (tEl) tEl.textContent = all.length;
+  });
+
+  // Module 進度
+  ['mod-1','mod-2','mod-3','mod-4','mod-5','mod-6'].forEach(modId => {
+    const body = document.getElementById(`${modId}-body`);
+    if (!body) return;
+    const all  = body.querySelectorAll('.check-item input');
+    const done = body.querySelectorAll('.check-item input:checked');
+    const dEl  = document.getElementById(`${modId}-done`);
+    const tEl  = document.getElementById(`${modId}-total`);
+    if (dEl) dEl.textContent = done.length;
+    if (tEl) tEl.textContent = all.length;
+  });
+
+  // 總計
+  const allItems  = document.querySelectorAll('.check-item input');
+  const doneItems = document.querySelectorAll('.check-item input:checked');
+  const pct = allItems.length ? Math.round(doneItems.length / allItems.length * 100) : 0;
+
+  document.getElementById('total-count').textContent = allItems.length;
+  document.getElementById('done-count').textContent  = doneItems.length;
+  document.getElementById('total-pct').textContent   = pct + '%';
+  document.getElementById('total-bar').style.width   = pct + '%';
+
+  // 時間戳
+  if (doneItems.length > 0) {
+    const now = new Date();
+    document.getElementById('time-label').textContent =
+      `最後更新：${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
+  }
+}
+
+// ── 綁定事件 ─────────────────────────────────────────
+document.querySelectorAll('.check-item').forEach(item => {
+  const cb = item.querySelector('input[type="checkbox"]');
+
+  // 點擊整個 row 切換（排除 label 直接點 checkbox）
+  item.addEventListener('click', e => {
+    if (e.target !== cb) cb.checked = !cb.checked;
+    item.classList.toggle('done', cb.checked);
+    saveState();
+    updateProgress();
+  });
+
+  cb.addEventListener('change', () => {
+    item.classList.toggle('done', cb.checked);
+    saveState();
+    updateProgress();
+  });
+});
+
+// ── 初始化 ───────────────────────────────────────────
+loadState();
+updateProgress();
+
+// 預設展開模組 1
+document.querySelector('#mod-1 .module-header').classList.add('open');
+document.getElementById('mod-1-body').classList.add('open');
+document.querySelector('#sec-1-1-items').classList.add('open');
+</script>
+</body>
+</html>
