@@ -1,4 +1,4 @@
-<form action="" class="register-form form-group">
+<form action="" class="register-form form-group col-md-8 m-auto">
      <h2 class='text-center'>會員註冊</h2>
     <div class='my-2'>
         <label for="">帳號</label>    

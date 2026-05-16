@@ -33,7 +33,7 @@
                 </div>
                 <?php else:;?>
                 <div class="user-badge">
-                    <a href="javascript:loadpage('./front/profile-page.php')" class="btn btn-success mx-2 profile-link">個人頁面入口</a>
+                    <a href="javascript:loadpage('./front/profile-page.php')" class="btn btn-success mx-2 profile-link">個人頁面</a>
                     <a href="javascript:location.href='./api/logout.php'" class="btn btn-success mx-2 logout-link">登出</a>
                 </div>
                 <?php endif;?>
