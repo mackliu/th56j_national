@@ -6,14 +6,7 @@
             <button type='button' class="search-submit-button btn btn-primary mx-2">尋找</button>
         </form>
         <div class="search-result-list my-2">
-            <div class="search-result-item d-flex justify-content-between my-1 col-md-10">
-                <div class="result-username">好友名稱</div>
-                <a href="" class="view-profile-link">查看個人頁面</a>
-            </div>
-            <div class="search-result-item d-flex justify-content-between my-1 col-md-10">
-                <div class="result-username">好友名稱</div>
-                <a href="" class="view-profile-link">查看個人頁面</a>
-            </div>
+             <div class="text-center">搜尋好友結果區</div>
         </div>
     </div>
 
