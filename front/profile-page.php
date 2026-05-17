@@ -1,6 +1,16 @@
+<?php include "../api/db.php";
+$user=$pdo->query("SELECT * FROM `users` WHERE `username`='{$_SESSION['login']}'")->fetch();
+$userHeader=(!empty($user['header']))?"./img/{$user['header']}":"./img/default_header.jpg";
+
+?>
+
+
 <div id="profile-page">
     <section class="profile-header w-100 p-3 border rounded mb-2 text-center">
-        <img src="./img/user_01.jpg" class="profile-avater" style="width:128px;">
+        <label for="header">
+            <img src="<?=$userHeader;?>" class="profile-avater" style="width:128px;">
+            <input type="file" name="header" id="header" style="display:none">
+        </label>
         <div class="profile-username">username</div>
         <div class="profile-bio m-auto col-md-8 form-group">
             <textarea name="" id="" class="profile-bio-input w-100 form-control">
@@ -44,3 +54,28 @@
     <div class="empty-article-message">目前尚無文章</div>
 </section>
 </div>
+<script>
+$("#header").on("change",function(){
+    let file=this.files[0];
+    if(!file){ return;}
+    let reader=new FileReader();
+    reader.onload=function(e){
+        let imgString=e.target.result;
+        //console.log(imgString)
+        $.post("./api/update_avatar.php",{imgString},function(res){
+            console.log(res)
+            if(parseInt(res)){
+                
+                $(".profile-avater").attr("src",imgString);
+            }else{
+                alert("頭象上傳失敗")
+            }
+
+        })
+
+    }
+    reader.readAsDataURL(file)
+
+})
+
+</script>
