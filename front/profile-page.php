@@ -44,7 +44,7 @@ $userHeader=(!empty($user['header']))?"./img/{$user['header']}":"./img/default_h
 </script>
     <a href="" class="new-post-link">發表文章</a>
     
-    <form action="" class="article-create-form col-md-12 m-auto border rounded form-group">
+    <form action="" class="article-create-form col-md-12 m-auto border rounded form-group" style="display:none">
         <div class='p-2'>
             <label for="">標題：</label>
             <input type="text" class="article-title-input form-control">
@@ -60,21 +60,24 @@ $userHeader=(!empty($user['header']))?"./img/{$user['header']}":"./img/default_h
 
 <section class="profile-articles my-2">
     <h3 class="text-center">我的文章</h3>
+    <?php 
+        $articles=$pdo->query("SELECT * FROM `articles` WHERE `user_id`='{$user['id']}';")->fetchAll();
+        if(count($articles)>0):;?>
+
+    <!--文章項目-->
+    <?php foreach($articles as $article):;?>
     <div class="article-item my-2 p-2 border rounded d-flex justify-content-between">
         <div class="col-md-10 d-flex justify-content-between">
-            <span class="article-title">文章標題</span>
-            <a href="" class="article-readmore">閱讀文章</a>
+            <span class="article-title"><?=$article['title'];?></span>
+            <a href="javascript:loadpage('./front/article.php?id=<?=$article['id'];?>')" class="article-readmore">閱讀文章</a>
         </div>
-        <time datetime="" class="article-date col-md-2 text-right text-sm"><?= date("Y-m-d H:i:s"); ?></time>
+        <time datetime="" class="article-date col-md-2 text-right text-sm"><?= date("Y-m-d",$articles['created_at']); ?></time>
     </div>
-    <div class="article-item my-2 p-2 border rounded d-flex justify-content-between">
-        <div class="col-md-10 d-flex justify-content-between">
-            <span class="article-title">文章標題</span>
-            <a href="" class="article-readmore">閱讀文章</a>
-        </div>
-        <time datetime="" class="article-date col-md-2 text-right text-sm"><?= date("Y-m-d H:i:s"); ?></time>
-    </div>
-    <div class="empty-article-message">目前尚無文章</div>
+    <?php endforeach;?>
+    <?php else:;?>
+    <!--暫代文字-->
+    <div class="empty-article-message text-2xl col-md-8 p-3 bolder text-center m-auto">目前尚無文章</div>
+    <?php endif;?>
 </section>
 </div>
 <script>
