@@ -42,21 +42,9 @@ $userHeader=(!empty($user['header']))?"./img/{$user['header']}":"./img/default_h
         }
     })
 </script>
-    <a href="" class="new-post-link">發表文章</a>
+    <a href="javascript:loadpage('./front/add-article.php')" class="new-post-link">發表文章</a>
     
-    <form action="" class="article-create-form col-md-12 m-auto border rounded form-group" style="display:none">
-        <div class='p-2'>
-            <label for="">標題：</label>
-            <input type="text" class="article-title-input form-control">
-        </div>
-        <div class='p-2'>
-            <label for="">文章內容：</label>
-            <textarea name="" id="" class="article-content-input form-control"></textarea>
-        </div>
-        <div class="text-center p-2">
-            <button class="article-submit-button btn btn-primary">發佈</button>
-        </div>
-    </form>
+
 
 <section class="profile-articles my-2">
     <h3 class="text-center">我的文章</h3>
@@ -71,7 +59,7 @@ $userHeader=(!empty($user['header']))?"./img/{$user['header']}":"./img/default_h
             <span class="article-title"><?=$article['title'];?></span>
             <a href="javascript:loadpage('./front/article.php?id=<?=$article['id'];?>')" class="article-readmore">閱讀文章</a>
         </div>
-        <time datetime="" class="article-date col-md-2 text-right text-sm"><?= date("Y-m-d",$articles['created_at']); ?></time>
+        <time datetime="" class="article-date col-md-2 text-right text-sm"><?= date("Y-m-d",strtotime($article['created_at'])); ?></time>
     </div>
     <?php endforeach;?>
     <?php else:;?>
