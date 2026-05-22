@@ -38,8 +38,9 @@ $userHeader=(!empty($friend['header']))?"./img/{$friend['header']}":"./img/defau
     </section>    
 </div>
 <div class="profile-friend-actions">
+    <button class="btn btn-primary">申請好友</button>
     <button class="btn btn-success">接受好友</button>
     <button class="btn btn-warning">拒絕好友</button>
-    <button class="btn btn-warning">取消好友</button>
+    <button class="btn btn-danger">取消好友</button>
 </div>
 </div>
