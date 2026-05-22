@@ -1,4 +1,12 @@
 {
-  "title": "數字挑戰",
-  "description": "依序點擊數字，按升序完成挑戰！"
+  "entry": {
+    "url": "games/1/index.html"
+  },
+  "score": {
+    "pullUrl": "games/1/api/pull_score.php",
+    "columns": [
+      "玩家名稱",
+      "分數"
+    ]
+  }
 }

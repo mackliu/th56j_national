@@ -1,4 +1,12 @@
 {
-  "title": "滑動拼圖",
-  "description": "移動方塊讓數字從1排列到8，用最少步數完成！"
+  "entry": {
+    "url": "games/5/index.html"
+  },
+  "score": {
+    "pullUrl": "games/5/api/pull_score.php",
+    "columns": [
+      "玩家名稱",
+      "分數"
+    ]
+  }
 }

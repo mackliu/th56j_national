@@ -1,4 +1,12 @@
 {
-  "title": "反應力測試",
-  "description": "看到綠色畫面就立刻點擊，測試你的反應速度！"
+  "entry": {
+    "url": "games/3/index.html"
+  },
+  "score": {
+    "pullUrl": "games/3/api/pull_score.php",
+    "columns": [
+      "玩家名稱",
+      "分數"
+    ]
+  }
 }

@@ -1,6 +1,6 @@
 <?php include "../api/db.php";
 $user=$pdo->query("SELECT * FROM `users` WHERE `username`='{$_SESSION['login']}'")->fetch();
-$userHeader=(!empty($user['header']))?"./img/{$user['header']}":"./img/default_header.jpg";
+$userHeader=(!empty($user['header']))?"./img/{$user['header']}":"./img/default.jpg";
 
 ?>
 
