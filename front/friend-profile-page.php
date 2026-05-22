@@ -1,6 +1,6 @@
 <?php include_once "../api/db.php";
 $friend=$pdo->query("SELECT * FROM `users` WHERE `id`='{$_GET['id']}'")->fetch();
-$userHeader=(!empty($friend['header']))?"./img/{$friend['header']}":"./img/default_header.jpg";
+$userHeader=(!empty($friend['header']))?"./img/{$friend['header']}":"./img/default.jpg";
 ?>
 
 
@@ -38,9 +38,40 @@ $userHeader=(!empty($friend['header']))?"./img/{$friend['header']}":"./img/defau
     </section>    
 </div>
 <div class="profile-friend-actions">
-    <button class="btn btn-primary">申請好友</button>
-    <button class="btn btn-success">接受好友</button>
-    <button class="btn btn-warning">拒絕好友</button>
-    <button class="btn btn-danger">取消好友</button>
+    <?php 
+        $my=$pdo->query("SELECT * FROM `users` WHERE `username`='{$_SESSION['login']}'")->fetch();
+        $relation=$pdo->query("SELECT * FROM `friends` WHERE (`requester_id`='{$my['id']}' AND `addressee_id`='{$friend['id']}') OR (`requester_id`='{$friend['id']}' AND `addressee_id`='{$my['id']}')")->fetch();
+
+        //'pending','accepted','rejected'
+        $is_relation=(empty($relation))?false:true;
+        $is_requester=($is_relation && $relation['requester_id']==$my['id'] && $relation['status']=='pending')?true:false;
+        $is_addressee=($is_relation && $relation['addressee_id']==$my['id'] && $relation['status']=='pending')?true:false;
+        $is_friend=($is_relation && $relation['status']=='accepted')?true:false;
+
+        
+    ?>
+    <?php if(!$is_relation):;?>
+    <button class="btn btn-primary" onclick="setFriend('apply',<?= $friend['id'] ?>)">申請好友</button>
+    <?php elseif($is_requester):;?>
+    <button class="btn btn-warning" onclick="setFriend('cancel',<?= $friend['id'] ?>)">取消好友申請</button>
+    <?php elseif($is_addressee):;?>
+    <button class="btn btn-success" onclick="setFriend('accept',<?= $friend['id'] ?>)">接受好友</button>
+    <button class="btn btn-warning" onclick="setFriend('reject',<?= $friend['id'] ?>)">拒絕好友</button>
+    <?php elseif($is_friend):;?>
+    <button class="btn btn-danger" onclick="setFriend('remove',<?= $friend['id'] ?>)">取消好友</button>
+    <?php endif;?>
 </div>
 </div>
+<script>
+function setFriend(action,friend_id){
+    $.get("./api/set_friend.php",{action,friend_id},function(res){
+        //console.log(res);
+        if(res.success){
+            alert(res.message);
+            loadpage(`./front/friend-profile-page.php?id=${friend_id}`);
+        }else{
+            alert("操作失敗");
+        }
+    })
+}
+</script>
