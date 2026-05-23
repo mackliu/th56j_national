@@ -1,3 +1,5 @@
 function loadpage(url="main"){
-    $("#content").load(url)
+    $("#content").load(url,function(res){
+        //console.log(res)
+    })
 }

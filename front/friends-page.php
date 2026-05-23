@@ -1,3 +1,15 @@
+<?php
+include_once "../api/db.php";
+
+if(!isset($_SESSION['login'])){
+    echo "<script>";
+    echo "loadpage('./front/login.php')";
+    echo "</script>";
+}
+
+?>
+
+
 <div id="friends-page">
     <div class="friend-search-section border rounded p-3 ">
         <form action="" class="friend-search-form form-group d-flex align-items-center">
@@ -13,9 +25,9 @@
     <script>
         $(".search-submit-button").on("click",function(){
             let search=$("#search").val();
-            console.log(search)
+            //console.log(search)
             $.get("./api/search_users.php",{search},function(friends){
-                console.log(friends)
+                //console.log(friends)
                 $(".search-result-list").html(friends)
             })
         })
@@ -26,7 +38,7 @@
         <div class="d-flex flex-wrap p-3">
             <?php for($i=0;$i<5;$i++):;?>
             <div class="friend-item col-md-3 p-2 text-center" onclick="loadpage('./front/friend-profile-page.php')">
-                <img src="./img/user_01.jpg" style="width:64px;" class="friend-avatar">
+                <img src="./img/default.jpg" style="width:64px;" class="friend-avatar">
                 <div class="friend-name mx-3">username</div>
             </div>
             <?php endfor ;?>
@@ -37,7 +49,7 @@
         <div class="d-flex flex-wrap p-3">
             <?php for($i=0;$i<5;$i++):;?>
             <div class="request-item col-md-3 p-2 text-center">
-                <img src="./img/user_02.jpg" style="width:64px;" class="request-avatar">
+                <img src="./img/default.jpg" style="width:64px;" class="request-avatar">
                 <div class="request-username">username</div>
                 <div>
                     <button class="accept-request-button btn btn-success btn-sm">接受好友</button>
@@ -52,7 +64,7 @@
         <div class="d-flex flex-wrap p-3">
             <?php for($i=0;$i<5;$i++):;?>
             <div class="request-item col-md-3 p-2 text-center">
-                <img src="./img/user_03.jpg" style="width:64px" class="request-avatar">
+                <img src="./img/default.jpg" style="width:64px" class="request-avatar">
                 <div class="request-username">username</div>
                 <button class="cancel-request-button btn btn-warning btn-sm">取消申請</button>
             </div>
