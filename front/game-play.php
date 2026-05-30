@@ -19,3 +19,19 @@ $game_setting=json_decode(file_get_contents("../games/{$game['id']}/game.json"))
     </aside>
 </div>
 
+<script>
+    $.get("<?= $game_setting->score->pullUrl ?>",(ranks)=>{
+        if(ranks.length>0){
+            ranks.forEach((item,idx)=>{
+                let list=`<div class="leaderboard-item list-group-item d-flex text-center">
+                            <div class="player-rank col-2">${idx+1}</div>
+                            <div class="player-name col-6">${item['玩家名稱']}</div>
+                            <div class="player-score col-2">${item['分數']}</div>
+                        </div>`
+                $("#leaderboard").append(list)
+            })
+        }else{
+            $("#leaderboard").append("<div class='leaderboard-empty text-center'>目前尚無分數紀錄</div>")
+        }
+    })
+</script>
