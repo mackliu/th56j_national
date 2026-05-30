@@ -13,14 +13,9 @@ $game_setting=json_decode(file_get_contents("../games/{$game['id']}/game.json"))
     </section>
     <aside class="game-leaderboard">
         <h2 class="leaderboard-title text-center"><?=$game['title'];?>風雲排行榜</h2>
-        
-        <div class="leaderboard-item">
-            <div class="player-rank"></div>
-            <div class="player-name"></div>
-            <div class="player-score"></div>
+        <div id="leaderboard" class="list-group w-50 mx-auto">
+
         </div>
-        
-        <div class="leaderboard-empty text-center">目前尚無分數紀錄</div>
     </aside>
 </div>
 

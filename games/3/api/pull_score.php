@@ -12,29 +12,17 @@ $game_id = 3;   // 本資料夾對應的遊戲 id
 
 try {
     $dsn = 'mysql:host=localhost;dbname=db21;charset=utf8mb4';
-    $pdo = new PDO($dsn, 'root', '', [
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-    ]);
+    $pdo = new PDO($dsn, 'root', '');
 
     // 分數由高到低排序；同分時較早建立者排前面
-    $stmt = $pdo->prepare(
-        'SELECT player_name, score
+    $sql ="SELECT player_name as '玩家名稱', score as '分數'
            FROM scores
-          WHERE game_id = ?
-          ORDER BY score DESC, created_at ASC'
-    );
-    $stmt->execute([$game_id]);
-    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+          WHERE game_id = $game_id
+          ORDER BY score DESC, created_at ASC";
+    
+    $rows = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 
-    $data = [];
-    foreach ($rows as $row) {
-        $data[] = [
-            '玩家名稱' => $row['player_name'],
-            '分數'     => (int) $row['score'],
-        ];
-    }
-
-    echo json_encode($data, JSON_UNESCAPED_UNICODE);
+    echo json_encode($rows, JSON_UNESCAPED_UNICODE);
 } catch (Throwable $e) {
     // 基本錯誤處理：回傳 500 與錯誤訊息
     http_response_code(500);
