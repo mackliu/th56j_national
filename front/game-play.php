@@ -7,7 +7,7 @@ $game_setting=json_decode(file_get_contents("../games/{$game['id']}/game.json"))
 <div id="game-play">
     <h2 class="current-game-title text-center"><?=$game['title'];?></h2>
     <section class="game-area">
-        <iframe src="<?=$game_setting->entry->url;?>" frameborder="0" class="game-frame d-block m-auto w-75 " style="height:400px;" >
+        <iframe src="<?=$game_setting->entry->url;?>" frameborder="0" class="game-frame d-block m-auto w-75 " style="height:600px;" >
 
         </iframe>
     </section>
@@ -22,6 +22,12 @@ $game_setting=json_decode(file_get_contents("../games/{$game['id']}/game.json"))
 <script>
     $.get("<?= $game_setting->score->pullUrl ?>",(ranks)=>{
         if(ranks.length>0){
+               let cols=`<div class="leaderboard-item list-group-item d-flex text-center">
+                            <div class="player-rank col-2">排名</div>
+                            <div class="player-name col-6"><?= $game_setting->score->columns[0]; ?></div>
+                            <div class="player-score col-2"><?= $game_setting->score->columns[1];?></div>
+                        </div>`
+                        $("#leaderboard").append(cols)
             ranks.forEach((item,idx)=>{
                 let list=`<div class="leaderboard-item list-group-item d-flex text-center">
                             <div class="player-rank col-2">${idx+1}</div>

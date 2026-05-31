@@ -3,7 +3,7 @@
 
     <section class="game-list d-flex flex-wrap p-3 ">
         <?php 
-        $games=$pdo->query("select * from `games` ")->fetchAll();
+        $games=$pdo->query("select * from `games`")->fetchAll();
         foreach($games as $game):?>
         <div class="game-item my-3 col-4 border rounded py-2">
             <img src="<?=$game['cover'];?>" alt="" class="game-cover w-100 mb-2">
