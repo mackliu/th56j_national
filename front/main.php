@@ -2,18 +2,20 @@
     <!--文章列表區塊-->
         <section class="articles">
             <h3>文章列表</h3>
-            <?php for($i=0; $i<5;$i++):;?>
+            <?php
+            $articles=$pdo->query("SELECT * FROM `articles` Order by `created_at` DESC LIMIT 5")->fetchAll(PDO::FETCH_ASSOC);
+            foreach($articles as $article):;?>
             <article class="article-item w-100 border rounded p-3 my-2">
                 <div class="d-flex justify-content-between">
-                    <div class="article-title text-md bolder"><?=$i;?>. 很好玩</div>
-                    <time class="article-date text-sm"><?=date("Y-m-d H:i:s");?></time>
+                    <div class="article-title text-md bolder"><?=$article['title'];?></div>
+                    <time class="article-date text-sm"><?=date("Y-m-d H:i:s",strtotime($article['created_at']));?></time>
                 </div>
                 <div class="d-flex">
-                    <div class="article-excerpt pl-4">有好多好玩的遊戲......</div>
-                    <a href="javascript:loadpage('./front/article.php')" class="article-readmore text-right text-sm">閱讀更多</a>
+                    <div class="article-excerpt pl-4"><?= mb_substr($article['content'],0,50);?>...</div>
+                    <a href="javascript:loadpage('./front/article.php?id=<?=$article['id'];?>')" class="article-readmore text-right text-sm">閱讀更多</a>
                 </div>
             </article>
-            <?php endfor;?>
+            <?php endforeach ;?>
     
         </section>
 
