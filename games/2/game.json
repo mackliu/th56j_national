@@ -4,6 +4,7 @@
   },
   "score": {
     "pullUrl": "games/2/api/pull_score.php",
+    "pushUrl": "games/2/api/push_score.php",
     "columns": [
       "玩家名稱",
       "分數"

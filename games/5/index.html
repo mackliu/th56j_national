@@ -321,19 +321,20 @@
     resTime.textContent  = seconds + 's';
     resRank.textContent  = rankMsg(steps, seconds);
     overlay.classList.add('show');
-    sendResultToParent('完成', steps + ' 步 / ' + seconds + ' 秒');
+    const finalScore = Math.max(1, Math.round(100000 / (steps + seconds)));
+    sendResultToParent('完成', finalScore, steps + ' 步 / ' + seconds + ' 秒');
   }
 
   // ── 回傳 ─────────────────────────────────────────
-  function sendResultToParent(result, score) {
-    if (window.opener) {
-      window.opener.receiveGameResult({
-        game: '滑動拼圖',
-        data: { result, score }
-      });
-    } else {
-      console.warn('無法傳送結果，請確認是否由主頁面開啟');
-    }
+  function sendResultToParent(result, score, display) {
+    // 改用 postMessage 把結果送給母頁面（iframe 機制）
+    window.parent.postMessage({
+      type: 'GAME_RESULT',
+      game: '滑動拼圖',
+      result: result,
+      score: Number(score) || 0,
+      display: display,
+    }, '*');
   }
 
   // ── 提示 ─────────────────────────────────────────

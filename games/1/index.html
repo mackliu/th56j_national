@@ -113,19 +113,15 @@
         });
       }
 
-      function sendResultToParent(result, timeTaken) {
-        if (window.opener) {
-          window.opener.receiveGameResult({
-            game: "數字挑戰",
-            data: {
-              result: result,
-              time: timeTaken,
-            },
-          });
-          window.close()
-        } else {
-          console.warn("無法傳送結果，請確認是否由主頁面開啟");
-        }
+      function sendResultToParent(result, score, display) {
+        // 改用 postMessage 把結果送給母頁面（iframe 機制）
+        window.parent.postMessage({
+          type: "GAME_RESULT",
+          game: "數字挑戰",
+          result: result,
+          score: Number(score) || 0,
+          display: display,
+        }, "*");
       }
 
       function checkOrder() {
@@ -138,7 +134,8 @@
             if(confirm('是否要重新開始')){
               resetGame();
             }else{
-              sendResultToParent("完成", timeTaken);
+              const score = Math.max(1, Math.round(100000 / parseFloat(timeTaken)));
+              sendResultToParent("完成", score, timeTaken + " 秒");
             }
           }
         } else {
@@ -151,7 +148,7 @@
           if(confirm('是否要重新開始')){
             resetGame();
           }else{
-            sendResultToParent("失敗", timeTaken);
+            sendResultToParent("失敗", 0, timeTaken + " 秒");
           }
         }
       }

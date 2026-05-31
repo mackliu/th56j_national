@@ -113,20 +113,15 @@
         });
       }
 
-      function sendResultToParent(result, timeTaken) {
-
-        if (window.opener) {
-          window.opener.receiveGameResult({
-            game: "記憶挑戰",
-            data: {
-              result: result,
-              time: timeTaken,
-            },
-          });
-          window.close()
-        } else {
-          console.warn("無法傳送結果，請確認是否由主頁面開啟");
-        }
+      function sendResultToParent(result, score, display) {
+        // 改用 postMessage 把結果送給母頁面（iframe 機制）
+        window.parent.postMessage({
+          type: "GAME_RESULT",
+          game: "記憶挑戰",
+          result: result,
+          score: Number(score) || 0,
+          display: display,
+        }, "*");
       }
 
       function checkOrder() {
@@ -136,7 +131,8 @@
             stopTimer();
             const timeTaken = document.getElementById("time-spent").textContent;
             resultDisplay.textContent = `挑戰成功！花費時間：${timeTaken} 秒`;
-            sendResultToParent("完成", timeTaken);
+            const score = Math.max(1, Math.round(100000 / parseFloat(timeTaken)));
+            sendResultToParent("完成", score, timeTaken + " 秒");
           }
         } else {
           resultDisplay.textContent = "挑戰失敗，請重新嘗試！";
@@ -145,7 +141,7 @@
           resetButton.textContent = "重新開始";
           clickedNumbers = [];
           const timeTaken = document.getElementById("time-spent").textContent;
-          sendResultToParent("失敗", timeTaken);
+          sendResultToParent("失敗", 0, timeTaken + " 秒");
         }
       }
 

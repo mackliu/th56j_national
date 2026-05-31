@@ -178,16 +178,15 @@
     return '💪 繼續加油！';
   }
 
-  function sendResultToParent(result, score) {
-    if (window.opener) {
-      window.opener.receiveGameResult({
-        game: '反應力測試',
-        data: { result, score }
-      });
-      window.close();
-    } else {
-      console.warn('無法傳送結果，請確認是否由主頁面開啟');
-    }
+  function sendResultToParent(result, score, display) {
+    // 改用 postMessage 把結果送給母頁面（iframe 機制）
+    window.parent.postMessage({
+      type: 'GAME_RESULT',
+      game: '反應力測試',
+      result: result,
+      score: Number(score) || 0,
+      display: display,
+    }, '*');
   }
 
   function startRound() {
@@ -245,14 +244,14 @@
       avgBlock.style.display = 'block';
       avgValEl.textContent = '—';
       avgRankEl.textContent = '請再試一次！';
-      sendResultToParent('失敗', '—');
+      sendResultToParent('失敗', 0, '—');
     } else {
       const avg = Math.round(valid.reduce((a, b) => a + b, 0) / valid.length);
       arena.textContent = `完成！平均 ${avg} ms`;
       avgBlock.style.display = 'block';
       avgValEl.textContent = avg + ' ms';
       avgRankEl.textContent = rankMsg(avg);
-      sendResultToParent('完成', avg + ' ms');
+      sendResultToParent('完成', Math.max(1, Math.round(100000 / avg)), avg + ' ms');
     }
     btnStart.textContent = '再玩一次';
     btnStart.disabled = false;

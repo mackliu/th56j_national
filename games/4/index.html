@@ -325,18 +325,18 @@
     finalRank.textContent = rankMsg(Math.floor(score / 10));
     overlay.classList.add('show');
 
-    sendResultToParent('完成', score + ' 分');
+    sendResultToParent('完成', score, score + ' 分');
   }
 
-  function sendResultToParent(result, score) {
-    if (window.opener) {
-      window.opener.receiveGameResult({
-        game: '打地鼠',
-        data: { result, score }
-      });
-    } else {
-      console.warn('無法傳送結果，請確認是否由主頁面開啟');
-    }
+  function sendResultToParent(result, score, display) {
+    // 改用 postMessage 把結果送給母頁面（iframe 機制）
+    window.parent.postMessage({
+      type: 'GAME_RESULT',
+      game: '打地鼠',
+      result: result,
+      score: Number(score) || 0,
+      display: display,
+    }, '*');
   }
 
   btnStart.addEventListener('click', startGame);
