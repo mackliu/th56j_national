@@ -101,12 +101,12 @@ if(!isset($_SESSION['login'])){
 <script>
 function setFriend(action,friend_id){
  $.get("./api/set_friend.php",{action,friend_id},function(res){
-    //console.log(res)
+    console.log(res)
     if(res.success){
         alert(res.message)
         loadpage(`./front/friends-page.php`);
     }else{
-        alert("操作失敗")
+        alert(`${res.message}`)
     }
  })
 }

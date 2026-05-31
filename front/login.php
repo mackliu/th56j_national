@@ -21,11 +21,11 @@ $(".login-submit-button").on("click",function(){
     'password':$("#password").val()
  },function(res){
     //console.log(res)
-     if(parseInt(res)){
+     if(res.result==='success'){
          //loadpage('./front/main.php')
          location.reload();
      }else{
-         alert("帳號或密碼錯誤,請重新登入");
+         alert(`${res.message}`);
          $("#username,#password").val("")
          
      }

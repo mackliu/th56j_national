@@ -75,12 +75,12 @@ $userHeader=(!empty($friend['header']))?"./img/{$friend['header']}":"./img/defau
 <script>
 function setFriend(action,friend_id){
  $.get("./api/set_friend.php",{action,friend_id},function(res){
-    //console.log(res)
+    console.log(res.success)
     if(res.success){
         alert(res.message)
         loadpage(`./front/friend-profile-page.php?id=${friend_id}`);
     }else{
-        alert("操作失敗")
+        alert(`${res.message}`)
     }
  })
 }
