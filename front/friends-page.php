@@ -22,25 +22,33 @@ if(!isset($_SESSION['login'])){
         </div>
     </div>
 
-    <script>
-        $(".search-submit-button").on("click",function(){
-            let search=$("#search").val();
-            //console.log(search)
-            $.get("./api/search_users.php",{search},function(friends){
-                console.log(friends)
-                friends.forEach((item,idx)=>{
-                    let user=`<div class="search-result-item d-flex justify-content-between my-1 col-md-10">
-                                <div class="result-username">${item.username}</div>
-                                    <a href="javascript:loadpage('./front/friend-profile-page.php?id=${item.id}')" 
-                                        class="view-profile-link">查看個人頁面</a>
-                                </div>`
-                
-                    $(".search-result-list").append(user)
-                })
-
-            })
+<script>
+$(".search-submit-button").on("click",function(){
+    let search=$("#search").val();
+    //console.log(search)
+    getSearchResult(search)
+})
+$("#search").on("input",function(){
+    let search=$("#search").val();
+    //console.log(search)
+    getSearchResult(search)
+})
+function getSearchResult(search){
+    $(".search-result-list").html("");
+    $.get("./api/search_users.php",{search},function(friends){
+        //console.log(friends)
+        friends.forEach((item,idx)=>{
+            let user=`<div class="search-result-item d-flex justify-content-between my-1 col-md-10">
+                        <div class="result-username">${item.username}</div>
+                            <a href="javascript:loadpage('./front/friend-profile-page.php?id=${item.id}')" 
+                                class="view-profile-link">查看個人頁面</a>
+                        </div>`
+        
+            $(".search-result-list").append(user)
         })
-    </script>
+    })
+}
+</script>
 
     <div class="friend-list-section w-100 border rounded p-3 my-2">
         <h3 class="section-title text-center">好友列表</h3>
