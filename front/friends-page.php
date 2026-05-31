@@ -27,8 +27,17 @@ if(!isset($_SESSION['login'])){
             let search=$("#search").val();
             //console.log(search)
             $.get("./api/search_users.php",{search},function(friends){
-                //console.log(friends)
-                $(".search-result-list").html(friends)
+                console.log(friends)
+                friends.forEach((item,idx)=>{
+                    let user=`<div class="search-result-item d-flex justify-content-between my-1 col-md-10">
+                                <div class="result-username">${item.username}</div>
+                                    <a href="javascript:loadpage('./front/friend-profile-page.php?id=${item.id}')" 
+                                        class="view-profile-link">查看個人頁面</a>
+                                </div>`
+                
+                    $(".search-result-list").append(user)
+                })
+
             })
         })
     </script>

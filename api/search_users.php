@@ -1,16 +1,21 @@
 <?php include_once "db.php";
-
+header("Content-Type:application/json;charset=utf8");
 $search=$_GET['search'];
 
- $sql="select * from `users` where `username` like '%$search%'";
- $users=$pdo->query($sql)->fetchAll();
+ $sql="select `id`,`username` from `users` where `username` like '%$search%'";
+ $users=$pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
  //echo json_encode($users);
 
+//排除自己
 foreach($users as $idx => $user){
     if($user['username']===$_SESSION['login']){
         unset($users[$idx]);
     }
 }
+
+echo json_encode($users,JSON_UNESCAPED_UNICODE);
+
+exit();
 
 if(count($users)>0):
     foreach($users as $user):
